@@ -43,12 +43,27 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(registerInfo);
+
+    console.log('hi', registerInfo);
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
     setRegisterInfo({ ...registerInfo, [val.target.name]: val.target.value });
     console.log(registerInfo);
+  };
+
+  const checkPasswordConfirm = () => {
+    if (registerInfo.password !== registerInfo.passwordConfirm) {
+      setRegisterInfoErr({
+        ...registerInfoErr,
+        passwordConfirmErr: true,
+      });
+    } else {
+      setRegisterInfoErr({
+        ...registerInfoErr,
+        passwordConfirmErr: false,
+      });
+    }
   };
 
   return (
@@ -61,8 +76,10 @@ const RegisterPage: React.FC = () => {
           name="email"
           onChange={handleChange}
           onBlur={() => {
-            if (!isEmail(registerInfo.email)) {
+            if (!isEmail(registerInfo.email) && registerInfo.email.length) {
               setRegisterInfoErr({ ...registerInfoErr, emailErr: true });
+            } else {
+              setRegisterInfoErr({ ...registerInfoErr, emailErr: false });
             }
           }}
           required
@@ -77,6 +94,7 @@ const RegisterPage: React.FC = () => {
           value={registerInfo?.password}
           type={hidePassword ? 'password' : 'text'}
           label="비밀번호"
+          onBlur={checkPasswordConfirm}
           endAdornment={
             <InputAdornment position="end">
               <HideButton
@@ -92,14 +110,11 @@ const RegisterPage: React.FC = () => {
           required
           name="passwordConfirm"
           onChange={handleChange}
+          error={registerInfoErr.passwordConfirmErr}
           value={registerInfo?.passwordConfirm}
           type={hidePassword ? 'password' : 'text'}
           label="비밀번호 확인"
-          onBlur={() => {
-            if (registerInfo.password !== registerInfo.passwordConfirm) {
-              console.log('hi');
-            }
-          }}
+          onBlur={checkPasswordConfirm}
           endAdornment={
             <InputAdornment position="end">
               <HideButton
