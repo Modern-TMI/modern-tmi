@@ -30,9 +30,6 @@ const CommonInput = (props: IProp) => {
 
 const InputContainer = styled(FormControl)``;
 
-const Input = styled(OutlinedInput)`
-  min-width: 260px;
-  width: 100%;
-`;
+const Input = styled(OutlinedInput)``;
 
 export default CommonInput;

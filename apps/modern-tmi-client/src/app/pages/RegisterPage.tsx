@@ -1,12 +1,6 @@
 import styled from '@emotion/styled';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import {
-  Button,
-  OutlinedInput,
-  InputAdornment,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
+import { Button, InputAdornment } from '@mui/material';
 import HideButton from '../components/HideButton';
 import { isEmail } from '../utils/validate';
 import CommonInput from '../components/CommonInput';
@@ -72,7 +66,7 @@ const RegisterPage: React.FC = () => {
         <TitleText>{'회원가입'}</TitleText>
       </TitleContainer>
       <Form onSubmit={handleSubmit}>
-        <CommonInput
+        <RegisterInput
           name="email"
           onChange={handleChange}
           onBlur={() => {
@@ -87,7 +81,7 @@ const RegisterPage: React.FC = () => {
           error={registerInfoErr.emailErr}
           label="이메일"
         />
-        <CommonInput
+        <RegisterInput
           required
           name="password"
           onChange={handleChange}
@@ -106,7 +100,7 @@ const RegisterPage: React.FC = () => {
             </InputAdornment>
           }
         />
-        <CommonInput
+        <RegisterInput
           required
           name="passwordConfirm"
           onChange={handleChange}
@@ -126,7 +120,7 @@ const RegisterPage: React.FC = () => {
             </InputAdornment>
           }
         />
-        <CommonInput
+        <RegisterInput
           required
           name="nickname"
           onChange={handleChange}
@@ -167,15 +161,13 @@ const Form = styled.form`
   height: 50%;
 `;
 
-const InputContainer = styled(FormControl)``;
-
-const Input = styled(OutlinedInput)`
-  min-width: 260px;
-  width: 100%;
-`;
-
 const SubmitButton = styled(Button)`
   width: 50%;
+`;
+
+const RegisterInput = styled(CommonInput)`
+  min-width: 260px;
+  width: 100%;
 `;
 
 export default RegisterPage;
