@@ -1,0 +1,73 @@
+{
+  "root": "apps/modern-tmi-client",
+  "sourceRoot": "apps/modern-tmi-client/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/modern-tmi-client",
+        "index": "apps/modern-tmi-client/src/index.html",
+        "baseHref": "/",
+        "main": "apps/modern-tmi-client/src/main.tsx",
+        "polyfills": "apps/modern-tmi-client/src/polyfills.ts",
+        "tsConfig": "apps/modern-tmi-client/tsconfig.app.json",
+        "assets": [
+          "apps/modern-tmi-client/src/favicon.ico",
+          "apps/modern-tmi-client/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/modern-tmi-client/src/environments/environment.ts",
+              "with": "apps/modern-tmi-client/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "modern-tmi-client:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "modern-tmi-client:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/modern-tmi-client/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/modern-tmi-client"],
+      "options": {
+        "jestConfig": "apps/modern-tmi-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

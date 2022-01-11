@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "modern-tmi-client": "apps/modern-tmi-client",
+    "modern-tmi-client-e2e": "apps/modern-tmi-client-e2e"
+  }
+}
