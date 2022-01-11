@@ -1,22 +1,42 @@
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {
   Button,
-  FormHelperText,
-  TextField,
   OutlinedInput,
   InputAdornment,
   InputLabel,
   FormControl,
 } from '@mui/material';
-import { IRegisterUser } from '../../type/user';
 import HideButton from '../components/HideButton';
+import { isEmail } from '../utils/validate';
+import CommonInput from '../components/CommonInput';
+
+interface IRegisterUser {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  nickname: string;
+}
+
+interface IRegisterInputError {
+  emailErr: boolean;
+  passwordErr: boolean;
+  passwordConfirmErr: boolean;
+  nicknameErr: boolean;
+}
 
 const RegisterPage: React.FC = () => {
   const [registerInfo, setRegisterInfo] = useState<IRegisterUser>({
     email: '',
     nickname: '',
     password: '',
+    passwordConfirm: '',
+  });
+  const [registerInfoErr, setRegisterInfoErr] = useState<IRegisterInputError>({
+    emailErr: false,
+    passwordErr: false,
+    passwordConfirmErr: false,
+    nicknameErr: false,
   });
 
   const [hidePassword, setHidePassword] = useState(true);
@@ -37,47 +57,67 @@ const RegisterPage: React.FC = () => {
         <TitleText>{'회원가입'}</TitleText>
       </TitleContainer>
       <Form onSubmit={handleSubmit}>
-        <InputContainer>
-          <InputLabel htmlFor="email">{'이메일'}</InputLabel>
-          <Input
-            name="email"
-            onChange={handleChange}
-            required
-            value={registerInfo?.email}
-            label="이메일"
-          />
-        </InputContainer>
-        <InputContainer>
-          <InputLabel htmlFor="password">{'비밀번호'}</InputLabel>
-          <Input
-            required
-            name="password"
-            onChange={handleChange}
-            value={registerInfo?.password}
-            type={hidePassword ? 'password' : 'text'}
-            label="비밀번호"
-            endAdornment={
-              <InputAdornment position="end">
-                <HideButton
-                  onClick={() => {
-                    setHidePassword(!hidePassword);
-                  }}
-                  show={hidePassword}
-                />
-              </InputAdornment>
+        <CommonInput
+          name="email"
+          onChange={handleChange}
+          onBlur={() => {
+            if (!isEmail(registerInfo.email)) {
+              setRegisterInfoErr({ ...registerInfoErr, emailErr: true });
             }
-          />
-        </InputContainer>
-        <InputContainer>
-          <InputLabel htmlFor="nickname">{'닉네임'}</InputLabel>
-          <Input
-            required
-            name="nickname"
-            onChange={handleChange}
-            value={registerInfo?.nickname}
-            label="닉네임"
-          />
-        </InputContainer>
+          }}
+          required
+          value={registerInfo?.email}
+          error={registerInfoErr.emailErr}
+          label="이메일"
+        />
+        <CommonInput
+          required
+          name="password"
+          onChange={handleChange}
+          value={registerInfo?.password}
+          type={hidePassword ? 'password' : 'text'}
+          label="비밀번호"
+          endAdornment={
+            <InputAdornment position="end">
+              <HideButton
+                onClick={() => {
+                  setHidePassword(!hidePassword);
+                }}
+                show={hidePassword}
+              />
+            </InputAdornment>
+          }
+        />
+        <CommonInput
+          required
+          name="passwordConfirm"
+          onChange={handleChange}
+          value={registerInfo?.passwordConfirm}
+          type={hidePassword ? 'password' : 'text'}
+          label="비밀번호 확인"
+          onBlur={() => {
+            if (registerInfo.password !== registerInfo.passwordConfirm) {
+              console.log('hi');
+            }
+          }}
+          endAdornment={
+            <InputAdornment position="end">
+              <HideButton
+                onClick={() => {
+                  setHidePassword(!hidePassword);
+                }}
+                show={hidePassword}
+              />
+            </InputAdornment>
+          }
+        />
+        <CommonInput
+          required
+          name="nickname"
+          onChange={handleChange}
+          value={registerInfo?.nickname}
+          label="닉네임"
+        />
         <SubmitButton variant="contained" type="submit">
           {'만들기'}
         </SubmitButton>
