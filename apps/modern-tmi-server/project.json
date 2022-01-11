@@ -1,0 +1,52 @@
+{
+  "root": "apps/modern-tmi-server",
+  "sourceRoot": "apps/modern-tmi-server/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/modern-tmi-server",
+        "main": "apps/modern-tmi-server/src/main.ts",
+        "tsConfig": "apps/modern-tmi-server/tsconfig.app.json",
+        "assets": ["apps/modern-tmi-server/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/modern-tmi-server/src/environments/environment.ts",
+              "with": "apps/modern-tmi-server/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "modern-tmi-server:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/modern-tmi-server/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/modern-tmi-server"],
+      "options": {
+        "jestConfig": "apps/modern-tmi-server/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

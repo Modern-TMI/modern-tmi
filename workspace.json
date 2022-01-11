@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "modern-tmi-client": "apps/modern-tmi-client",
-    "modern-tmi-client-e2e": "apps/modern-tmi-client-e2e"
-  }
+    "modern-tmi-client-e2e": "apps/modern-tmi-client-e2e",
+    "modern-tmi-server": "apps/modern-tmi-server"
+  },
+  "defaultProject": "modern-tmi-client"
 }
