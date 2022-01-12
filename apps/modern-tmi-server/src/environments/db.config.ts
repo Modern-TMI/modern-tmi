@@ -1,8 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+export type DatabaseStatus = 'local'|'dev'| 'prod';
+
 const dbConfig: TypeOrmModuleOptions = {
   type: 'mariadb',
-  port: 33067,
   username: 'root',
   password: '1234',
   database: 'tmi',
@@ -11,8 +12,10 @@ const dbConfig: TypeOrmModuleOptions = {
   autoLoadEntities: true
 };
 
-export const setDbConfig = (status: 'local' | 'dev' | 'prod') => {
-  Object.assign(dbConfig, {
+export const setDbConfig = (status: DatabaseStatus) => {
+  return Object.assign(dbConfig, {
+    host: status === 'local' ? 'localhost': 'nunch.dev',
+    port: status === 'local'? 3306 : 33067
   })
 };
 
