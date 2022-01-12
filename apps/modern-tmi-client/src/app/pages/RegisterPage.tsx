@@ -1,5 +1,11 @@
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useState, ReactElement } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  ReactElement,
+  useCallback,
+} from 'react';
 import {
   Button,
   InputAdornment,
@@ -79,7 +85,7 @@ const RegisterPage: React.FC = () => {
     }
   };
 
-  const RegisterInput = (props: IInputProps) => {
+  const RegisterInput = useCallback((props: IInputProps) => {
     const { error, label } = props;
     return (
       <InputContainer>
@@ -89,7 +95,7 @@ const RegisterPage: React.FC = () => {
         <Input {...props} />
       </InputContainer>
     );
-  };
+  }, []);
 
   return (
     <Wrapper>
