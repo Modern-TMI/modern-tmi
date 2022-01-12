@@ -3,7 +3,7 @@ import React, {
   ChangeEvent,
   FormEvent,
   useState,
-  ReactElement,
+  ReactNode,
   useCallback,
 } from 'react';
 import {
@@ -41,7 +41,7 @@ interface IInputProps {
   value: string;
   error?: boolean;
   type?: IInputType;
-  endAdornment?: ReactElement;
+  endAdornment?: ReactNode;
 }
 
 const RegisterPage: React.FC = () => {
@@ -62,8 +62,6 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log('hi', registerInfo);
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
