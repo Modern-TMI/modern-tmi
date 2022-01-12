@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Button, InputAdornment } from '@mui/material';
+import React, { ChangeEvent, FormEvent, useState, ReactElement } from 'react';
+import {
+  Button,
+  InputAdornment,
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
 import HideButton from '../components/HideButton';
 import { isEmail } from '../utils/validate';
-import CommonInput from '../components/CommonInput';
 
 interface IRegisterUser {
   email: string;
@@ -17,6 +22,20 @@ interface IRegisterInputError {
   passwordErr: boolean;
   passwordConfirmErr: boolean;
   nicknameErr: boolean;
+}
+
+type IInputType = 'password' | 'text' | 'email' | 'nummber';
+
+interface IInputProps {
+  name: string;
+  onChange: (val: ChangeEvent<HTMLInputElement>) => void;
+  label: string;
+  required?: boolean;
+  onBlur?: () => void;
+  value: string;
+  error?: boolean;
+  type?: IInputType;
+  endAdornment?: ReactElement;
 }
 
 const RegisterPage: React.FC = () => {
@@ -58,6 +77,18 @@ const RegisterPage: React.FC = () => {
         passwordConfirmErr: false,
       });
     }
+  };
+
+  const RegisterInput = (props: IInputProps) => {
+    const { error, label } = props;
+    return (
+      <InputContainer>
+        <InputLabel error={error} htmlFor="email">
+          {label}
+        </InputLabel>
+        <Input {...props} />
+      </InputContainer>
+    );
   };
 
   return (
@@ -165,9 +196,11 @@ const SubmitButton = styled(Button)`
   width: 50%;
 `;
 
-const RegisterInput = styled(CommonInput)`
+const InputContainer = styled(FormControl)`
   min-width: 260px;
   width: 100%;
 `;
+
+const Input = styled(OutlinedInput)``;
 
 export default RegisterPage;
