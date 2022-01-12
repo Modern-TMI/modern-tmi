@@ -29,6 +29,9 @@ class Server {
     Logger.log(
       `🚀 Application is running on: http://localhost:${this.port}`
     );
+    Logger.log(
+      `📄 Check your API with Swagger on: http://localhost:${this.port}/swagger`
+    )
   }
 
   private setupSwagger() {
