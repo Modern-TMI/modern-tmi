@@ -21,8 +21,10 @@ import {
 import { User } from './users.entity';
 import { CreateUserDto, DeleteUserDto } from './dto/users.dto';
 import { Response } from 'express';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 @ApiTags('유저 API')
 export class UsersController {
   constructor(private usersService: UsersService) {}
