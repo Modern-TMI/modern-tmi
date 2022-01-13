@@ -1,6 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from './users.entity';
 import { CreateUserDto, DeleteUserDto } from './dto/users.dto';
 import { Response } from 'express';
@@ -11,41 +28,52 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  @ApiOperation({summary: '모든 User 조회', description: '모든 User를 조회한다'})
+  @ApiOperation({
+    summary: '모든 User 조회',
+    description: '모든 User를 조회한다',
+  })
+  @ApiResponse({ description: '모든 User 목록', type: [User] })
   getUsers() {
     return this.usersService.findAll();
   }
 
   @Get('/:id')
-  @ApiOperation({summary: 'User 조회', description: 'User를 조회한다'})
-  getUser(@Param('id') id: number) {
-    return this.usersService.findOne(id);
+  @ApiOperation({ summary: 'User 조회', description: 'User를 조회한다' })
+  async getUser(@Param('id') id: number) {
+    const user = await this.usersService.findOne(id);
+    if (!user) {
+      throw new HttpException('Users Not Found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   @Post()
-  @ApiOperation({summary: 'User 생성', description: '신규 User를 생성한다'})
-  @ApiBody({type: CreateUserDto})
-  @ApiCreatedResponse({description: '신규 User를 생성한다', type: User})
+  @ApiOperation({ summary: 'User 생성', description: '신규 User를 생성한다' })
+  @ApiBody({ type: CreateUserDto })
+  @ApiCreatedResponse({ description: '신규 User를 생성한다', type: User })
   async createUser(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.createUser(createUserDto);
     return {
       id: user.id,
       email: user.email,
-      nickname: user.nickname
+      nickname: user.nickname,
     };
   }
 
   @Delete()
-  @ApiOperation({summary: 'User 삭제', description: 'User를 삭제한다'})
-  @ApiBody({type: DeleteUserDto})
+  @ApiOperation({ summary: 'User 삭제', description: 'User를 삭제한다' })
+  @ApiBody({ type: DeleteUserDto })
   async deleteUser(@Body() deleteUserDto: DeleteUserDto, @Res() res: Response) {
-    const {id} = deleteUserDto;
+    const { id } = deleteUserDto;
     const result = await this.usersService.deleteUser(id);
 
     if (result) {
-      return res.status(200).send('success');
+      return res.status(200).send(true);
     } else {
-      return res.status(500).send('failure');
+      throw new HttpException(
+        'User 삭제에 실패했습니다',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }
