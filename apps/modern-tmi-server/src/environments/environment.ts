@@ -1,6 +1,14 @@
 import { DatabaseStatus } from './db.config';
+import { IJwtConfig, JWT_CONFIG } from './jwt.config';
 
-export const environment: {[key:string] : any, database: DatabaseStatus} = {
+export interface IEnvironment extends IJwtConfig {
+  production: boolean;
+  database: DatabaseStatus;
+  [key: string]: any;
+}
+
+export const environment: IEnvironment = {
   production: false,
-  database: 'dev'
+  database: 'dev',
+  ...JWT_CONFIG,
 };
