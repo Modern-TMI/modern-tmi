@@ -17,29 +17,29 @@ class Server {
     this.app = await NestFactory.create(AppModule);
     this.port = process.env.PORT || 3333;
 
-    this.app.useGlobalPipes(new ValidationPipe({
-      transform: true
-    }));
+    this.app.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+      })
+    );
 
     this.app.enableCors();
     this.setupSwagger();
 
     await this.app.listen(this.port);
 
-    Logger.log(
-      `🚀 Application is running on: http://localhost:${this.port}`
-    );
+    Logger.log(`🚀 Application is running on: http://localhost:${this.port}`);
     Logger.log(
       `📄 Check your API with Swagger on: http://localhost:${this.port}/swagger`
-    )
+    );
   }
 
   private setupSwagger() {
     const options = new DocumentBuilder()
-    .setTitle('Modern TMI API')
-    .setDescription('Modern TMI API 문서')
-    .setVersion('0.0.1')
-    .build();
+      .setTitle('Modern TMI API')
+      .setDescription('Modern TMI API 문서')
+      .setVersion('0.0.1')
+      .build();
 
     const document = SwaggerModule.createDocument(this.app, options);
     SwaggerModule.setup('swagger', this.app, document);
