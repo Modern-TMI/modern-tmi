@@ -13,8 +13,8 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import HideButton from '../components/HideButton';
-import { isEmail } from '../utils/validate';
+import HideButton from '../../common/components/HideButton';
+import { isEmail } from '../../common/utils/validate';
 
 interface IRegisterUser {
   email: string;
