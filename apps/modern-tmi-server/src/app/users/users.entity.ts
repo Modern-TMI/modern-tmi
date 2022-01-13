@@ -33,7 +33,7 @@ export class User implements BaseEntity, IUser {
 
   @Column({ nullable: true })
   @ApiProperty({ description: 'RefreshToken' })
-  refreshToken?: string;
+  refreshToken: string | null;
 
   @UpdateDateColumn()
   @ApiProperty({ description: '수정 일자 ' })

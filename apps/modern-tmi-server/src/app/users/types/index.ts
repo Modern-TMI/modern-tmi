@@ -4,4 +4,5 @@ export class IUser {
   password: string;
   isActive: boolean;
   nickname: string;
+  refreshToken: string | null;
 }
