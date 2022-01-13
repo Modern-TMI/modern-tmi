@@ -5,6 +5,7 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  useEffect,
 } from 'react';
 import {
   Button,
@@ -16,6 +17,9 @@ import {
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
 import { useNavigate } from 'react-router-dom';
+import userStore from '../../common/store/userStore';
+import { IUser } from '../../common/type/user';
+import userSlice, { loginUser } from '../../common/slices/userSlice';
 
 interface ILoginInfo {
   email: string;
@@ -42,6 +46,21 @@ interface IInputProps {
 }
 
 const LoginPage: React.FC = () => {
+  console.log('#####', userStore.getState());
+  useEffect(() => {
+    userStore.dispatch(
+      loginUser({
+        id: 1,
+        email: 'khil@airi.kr',
+        password: '1234',
+        nickname: 'zidru',
+        isActive: true,
+        updatedDate: '',
+        createdDate: '',
+      } as IUser)
+    );
+    console.log(userStore.getState());
+  }, []);
   const navigate = useNavigate();
 
   const [registerInfo, setRegisterInfo] = useState<ILoginInfo>({
