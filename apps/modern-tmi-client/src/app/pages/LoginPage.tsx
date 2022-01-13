@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import HideButton from '../components/HideButton';
 import { isEmail } from '../utils/validate';
+import { useNavigate } from 'react-router-dom';
 
 interface ILoginInfo {
   email: string;
@@ -41,6 +42,8 @@ interface IInputProps {
 }
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [registerInfo, setRegisterInfo] = useState<ILoginInfo>({
     email: '',
     password: '',
@@ -115,7 +118,13 @@ const LoginPage: React.FC = () => {
         <LoginButton variant="contained" type="submit">
           {'로그인'}
         </LoginButton>
-        <LinkToRegistButton variant="outlined" type="button">
+        <LinkToRegistButton
+          onClick={() => {
+            navigate('/register');
+          }}
+          variant="outlined"
+          type="button"
+        >
           {'회원가입'}
         </LinkToRegistButton>
       </Form>
