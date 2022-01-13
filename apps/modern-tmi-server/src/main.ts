@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 class Server {
   private app: INestApplication;
@@ -23,7 +24,8 @@ class Server {
       })
     );
 
-    this.app.enableCors();
+    this.setMiddleware();
+
     this.setupSwagger();
 
     await this.app.listen(this.port);
@@ -45,6 +47,10 @@ class Server {
     SwaggerModule.setup('swagger', this.app, document);
   }
 
+  private setMiddleware() {
+    this.app.enableCors();
+    this.app.use(cookieParser());
+  }
 }
 
 const server = new Server();
