@@ -1,3 +1,5 @@
+import { Role } from '../../role/role';
+
 export class IUser {
   id: number;
   email: string;
@@ -5,4 +7,5 @@ export class IUser {
   isActive: boolean;
   nickname: string;
   refreshToken: string | null;
+  role: Role;
 }

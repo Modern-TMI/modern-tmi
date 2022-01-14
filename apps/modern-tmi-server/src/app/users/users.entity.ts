@@ -2,12 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { BaseEntity } from '../types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IUser } from './types';
+import { Role } from '../role/role';
 
 @Entity()
 export class User implements BaseEntity, IUser {
@@ -34,6 +37,11 @@ export class User implements BaseEntity, IUser {
   @Column({ nullable: true })
   @ApiProperty({ description: 'RefreshToken' })
   refreshToken: string | null;
+
+  @OneToOne(() => Role)
+  @JoinColumn()
+  @ApiProperty({ description: '권한' })
+  role: Role;
 
   @UpdateDateColumn()
   @ApiProperty({ description: '수정 일자 ' })

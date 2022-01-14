@@ -3,10 +3,14 @@ import { User } from './users.entity';
 import { hashing } from '../util/encryption';
 import { CreateUserDto } from './dto/users.dto';
 import { UsersRepository } from './users.repository';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private roleService: RoleService
+  ) {}
 
   /**
    * 모든 사용자를 검색한다
@@ -34,15 +38,16 @@ export class UsersService {
   }
 
   /**
-   * 신규 사용자를 생성한다
+   * 신규 사용자(User권한)를 생성한다
    * @param createUserDto
    */
-  createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto) {
     const { email, password, nickname } = createUserDto;
     const user = new User();
     user.email = email;
     user.password = hashing(password);
     user.nickname = nickname;
+    user.role = await this.roleService.getUser();
     return this.usersRepository.save(user);
   }
 
