@@ -6,13 +6,7 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
-import {
-  Button,
-  InputAdornment,
-  OutlinedInput,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+import { Button, OutlinedInput, FormControl, InputLabel } from '@mui/material';
 import HideButton from '../components/HideButton';
 import { isEmail } from '../utils/validate';
 
@@ -125,14 +119,12 @@ const RegisterPage: React.FC = () => {
           label="비밀번호"
           onBlur={checkPasswordConfirm}
           endAdornment={
-            <InputAdornment position="end">
-              <HideButton
-                onClick={() => {
-                  setHidePassword(!hidePassword);
-                }}
-                show={hidePassword}
-              />
-            </InputAdornment>
+            <HideButton
+              onClick={() => {
+                setHidePassword(!hidePassword);
+              }}
+              show={hidePassword}
+            />
           }
         />
         <RegisterInput
@@ -145,14 +137,12 @@ const RegisterPage: React.FC = () => {
           label="비밀번호 확인"
           onBlur={checkPasswordConfirm}
           endAdornment={
-            <InputAdornment position="end">
-              <HideButton
-                onClick={() => {
-                  setHidePassword(!hidePassword);
-                }}
-                show={hidePassword}
-              />
-            </InputAdornment>
+            <HideButton
+              onClick={() => {
+                setHidePassword(!hidePassword);
+              }}
+              show={hidePassword}
+            />
           }
         />
         <RegisterInput
