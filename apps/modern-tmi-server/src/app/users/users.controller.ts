@@ -25,7 +25,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
-@ApiTags('유저 API')
+@ApiTags('[로그인 필요] 유저 API')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

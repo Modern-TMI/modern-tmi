@@ -12,7 +12,7 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/auth.dto';
 import { CreateUserDto } from '../users/dto/users.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { User } from '../users/users.entity';
@@ -23,6 +23,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
+  @ApiOperation({
+    summary: '로그인',
+  })
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response
@@ -45,6 +48,9 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiOperation({
+    summary: '로그아웃',
+  })
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const token = req.cookies.Authentication || req.cookies.Refresh;
     if (!token) {
@@ -62,11 +68,17 @@ export class AuthController {
   }
 
   @Post('register')
+  @ApiOperation({
+    summary: '회원가입',
+  })
   async register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 
   @UseGuards(JwtRefreshGuard)
+  @ApiOperation({
+    summary: 'Access Token Refresh',
+  })
   @Get('refresh')
   async refresh(
     @Req() req: Request,
