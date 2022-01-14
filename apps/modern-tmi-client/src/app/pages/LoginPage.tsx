@@ -17,9 +17,12 @@ import {
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
 import { useNavigate } from 'react-router-dom';
-import userStore from '../../common/store/userStore';
 import { IUser } from '../../common/type/user';
 import userSlice, { loginUser } from '../../common/slices/userSlice';
+import {
+  useUserDispatch,
+  useUserSelector,
+} from '../../common/hooks/useUserStore';
 
 interface ILoginInfo {
   email: string;
@@ -46,9 +49,14 @@ interface IInputProps {
 }
 
 const LoginPage: React.FC = () => {
-  console.log('#####', userStore.getState());
+  // console.log('#####', userStore.getState());
+  // const userInfo = useSelector((state) => state);
+  const dispatch = useUserDispatch();
+  const userInfo = useUserSelector((state) => state);
+
+  console.log('$$$$', userInfo);
   useEffect(() => {
-    userStore.dispatch(
+    dispatch(
       loginUser({
         id: 1,
         email: 'khil@airi.kr',
@@ -59,7 +67,7 @@ const LoginPage: React.FC = () => {
         createdDate: '',
       } as IUser)
     );
-    console.log(userStore.getState());
+    // console.log(userStore.getState());
   }, []);
   const navigate = useNavigate();
 

@@ -6,3 +6,7 @@ const userStore = configureStore({
 });
 
 export default userStore;
+
+export type IUserDispatch = typeof userStore.dispatch;
+
+export type IUserRootState = ReturnType<typeof userStore.getState>;
