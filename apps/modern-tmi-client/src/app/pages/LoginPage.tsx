@@ -84,8 +84,8 @@ const LoginPage: React.FC = () => {
       <Form onSubmit={handleSubmit}>
         <LoginInput
           name="email"
-          onChange={handleChange}
-          onBlur={() => {
+          onChange={(e) => {
+            handleChange(e);
             if (!isEmail(loginInfo.email) && loginInfo.email.length) {
               setLoginInfoErr({ ...loginInfoErr, emailErr: true });
             } else {
