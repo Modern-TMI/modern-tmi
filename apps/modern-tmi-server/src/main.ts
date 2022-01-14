@@ -9,6 +9,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { RoleRepository } from './app/role/role.repository';
+import { Role } from './app/role/role';
+import { Roles } from './app/role/types';
 
 class Server {
   private app: INestApplication;
@@ -28,12 +31,35 @@ class Server {
 
     this.setupSwagger();
 
+    await this.initDatabases();
+
     await this.app.listen(this.port);
 
     Logger.log(`🚀 Application is running on: http://localhost:${this.port}`);
     Logger.log(
       `📄 Check your API with Swagger on: http://localhost:${this.port}/swagger`
     );
+  }
+
+  async initDatabases() {
+    const rolesRepository = this.app.get(RoleRepository);
+
+    const count = await rolesRepository.count();
+    if (count === 3) {
+      Logger.log(`📦 Role Table init Success`);
+      return;
+    }
+
+    await rolesRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Role)
+      .values([
+        { role: Roles.Guest },
+        { role: Roles.User },
+        { role: Roles.Admin },
+      ])
+      .execute();
   }
 
   private setupSwagger() {
