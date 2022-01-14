@@ -49,26 +49,25 @@ interface IInputProps {
 }
 
 const LoginPage: React.FC = () => {
-  // console.log('#####', userStore.getState());
-  // const userInfo = useSelector((state) => state);
   const dispatch = useUserDispatch();
   const userInfo = useUserSelector((state) => state);
 
-  console.log('$$$$', userInfo);
-  useEffect(() => {
-    dispatch(
-      loginUser({
-        id: 1,
-        email: 'khil@airi.kr',
-        password: '1234',
-        nickname: 'zidru',
-        isActive: true,
-        updatedDate: '',
-        createdDate: '',
-      } as IUser)
-    );
-    // console.log(userStore.getState());
-  }, []);
+  // testCode
+  // useEffect(() => {
+  //   dispatch(
+  //     loginUser({
+  //       id: 1,
+  //       email: 'khil@airi.kr',
+  //       password: '1234',
+  //       nickname: 'zidru',
+  //       isActive: true,
+  //       updatedDate: '',
+  //       createdDate: '',
+  //     } as IUser)
+  //   );
+  //   // console.log(userStore.getState());
+  // }, []);
+
   const navigate = useNavigate();
 
   const [registerInfo, setRegisterInfo] = useState<ILoginInfo>({
