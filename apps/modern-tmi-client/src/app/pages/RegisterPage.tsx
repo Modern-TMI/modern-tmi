@@ -30,7 +30,7 @@ interface IRegisterInputError {
   nicknameErr: boolean;
 }
 
-type IInputType = 'password' | 'text' | 'email' | 'nummber';
+type IInputType = 'password' | 'text' | 'email' | 'number';
 
 interface IInputProps {
   name: string;
