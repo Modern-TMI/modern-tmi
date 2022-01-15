@@ -20,9 +20,7 @@ export class UsersService {
    * @param email
    */
   findOneByEmail(email: string) {
-    return this.usersRepository.findOne({
-      email: email,
-    });
+    return this.usersRepository.findOne({ email });
   }
 
   /**
