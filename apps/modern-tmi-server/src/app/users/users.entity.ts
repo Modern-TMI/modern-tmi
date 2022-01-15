@@ -15,7 +15,7 @@ export class User implements BaseEntity, IUser {
   @ApiProperty({ description: 'id' })
   id: number;
 
-  @Column({ nullable: false })
+  @Column()
   @ApiProperty({ description: '이메일 주소' })
   email: string;
 
@@ -23,7 +23,7 @@ export class User implements BaseEntity, IUser {
   @ApiProperty({ description: '삭제 여부' })
   isActive: boolean;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   @ApiProperty({ description: '닉네임' })
   nickname: string;
 
