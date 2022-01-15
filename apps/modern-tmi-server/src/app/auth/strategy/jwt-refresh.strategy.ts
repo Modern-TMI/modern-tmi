@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersService } from '../../users/users.service';
 import { environment } from '../../../environments/environment';
+import { IJwtPayload } from '../types';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -19,7 +20,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
     });
   }
 
-  async validate(req, payload: any) {
+  async validate(req, payload: IJwtPayload) {
     const refreshToken = req.cookies?.Refresh;
     return this.usersService.checkMatchRefreshToken(payload.id, refreshToken);
   }

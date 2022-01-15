@@ -6,6 +6,7 @@ import { isMatchHash } from '../util/encryption';
 import { CreateUserDto } from '../users/dto/users.dto';
 import { environment } from '../../environments/environment';
 import { makeCookieOptions } from '../util/cookies';
+import { IJwtPayload } from './types';
 
 @Injectable()
 export class AuthService {
@@ -43,7 +44,7 @@ export class AuthService {
       );
     }
 
-    const payload = {
+    const payload: IJwtPayload = {
       id: user.id,
     };
 
@@ -105,7 +106,7 @@ export class AuthService {
    * Access Token과 Cookie Option을 생성한다
    * @param payload
    */
-  getCookieWithAccessToken(payload: any) {
+  getCookieWithAccessToken(payload: IJwtPayload) {
     const accessToken = this.jwtService.sign(payload, {
       secret: environment.JWT_ACCESS_TOKEN_SECRET,
       expiresIn: `${environment.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
@@ -125,7 +126,7 @@ export class AuthService {
    * Refresh Token과 Cookie Option을 생성한다
    * @param payload
    */
-  getCookieWithRefreshToken(payload: any) {
+  getCookieWithRefreshToken(payload: IJwtPayload) {
     const refreshToken = this.jwtService.sign(payload, {
       secret: environment.JWT_REFRESH_TOKEN_SECRET,
       expiresIn: `${environment.JWT_REFRESH_TOKEN_EXPIRATION_TIME}s`,
