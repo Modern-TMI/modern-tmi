@@ -29,7 +29,7 @@ export class UsersService {
    * id를 이용해 사용자를 검색한다
    * @param id
    */
-  findOne(id: number) {
+  findOneById(id: number) {
     return this.usersRepository.findOne(id);
   }
 
@@ -61,7 +61,7 @@ export class UsersService {
    * @param refreshToken
    */
   async updateRefreshToken(id: number, refreshToken: string) {
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
     user.refreshToken = refreshToken;
     return await this.usersRepository.update({ id: user.id }, { refreshToken });
   }
@@ -72,7 +72,7 @@ export class UsersService {
    * @param refreshToken
    */
   async checkMatchRefreshToken(id: number, refreshToken: string) {
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
     const isRefreshMatch = refreshToken === user.refreshToken;
 
     if (isRefreshMatch) {

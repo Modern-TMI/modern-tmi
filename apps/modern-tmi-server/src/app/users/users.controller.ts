@@ -42,7 +42,7 @@ export class UsersController {
   @Get('/:id')
   @ApiOperation({ summary: 'User 조회', description: 'User를 조회한다' })
   async getUser(@Param('id') id: number) {
-    const user = await this.usersService.findOne(id);
+    const user = await this.usersService.findOneById(id);
     if (!user) {
       throw new HttpException('Users Not Found', HttpStatus.NOT_FOUND);
     }
