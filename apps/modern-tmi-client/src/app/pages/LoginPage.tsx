@@ -51,24 +51,6 @@ interface IInputProps {
 
 const LoginPage: React.FC = () => {
   const dispatch = useUserDispatch();
-  const userInfo = useUserSelector((state) => state);
-
-  // testCode
-  // useEffect(() => {
-  //   dispatch(
-  //     loginUser({
-  //       id: 1,
-  //       email: 'khil@airi.kr',
-  //       password: '1234',
-  //       nickname: 'zidru',
-  //       isActive: true,
-  //       updatedDate: '',
-  //       createdDate: '',
-  //     } as IUser)
-  //   );
-  //   // console.log(userStore.getState());
-  // }, []);
-
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState<ILoginInfo>({
@@ -95,10 +77,12 @@ const LoginPage: React.FC = () => {
       if (resp?.data) {
         setIsLoginErr(false);
         dispatch(loginUser(resp.data));
-        navigate('/register');
+        // navigate('/register');
+        // 메인페이지 나오면 그리고 보내자
         return;
       }
       setIsLoginErr(true);
+      setLoginInfo({ ...loginInfo, password: '' });
     } else {
       alert('형식에 맞게 입력해주세요');
     }
@@ -119,8 +103,6 @@ const LoginPage: React.FC = () => {
       </InputContainer>
     );
   }, []);
-
-  console.log(userInfo);
 
   return (
     <Wrapper>
