@@ -1,0 +1,11 @@
+version: "3.1"
+
+services:
+  database:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: tmi
+    ports:
+      - 3306:3306

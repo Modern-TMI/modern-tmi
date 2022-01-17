@@ -70,11 +70,11 @@ const LoginPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [registerInfo, setRegisterInfo] = useState<ILoginInfo>({
+  const [loginInfo, setLoginInfo] = useState<ILoginInfo>({
     email: '',
     password: '',
   });
-  const [registerInfoErr, setRegisterInfoErr] = useState<ILoginInfoError>({
+  const [loginInfoErr, setLoginInfoErr] = useState<ILoginInfoError>({
     emailErr: false,
     passwordErr: false,
   });
@@ -86,8 +86,8 @@ const LoginPage: React.FC = () => {
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
-    setRegisterInfo({ ...registerInfo, [val.target.name]: val.target.value });
-    console.log(registerInfo);
+    setLoginInfo({ ...loginInfo, [val.target.name]: val.target.value });
+    console.log(loginInfo);
   };
 
   const LoginInput = useCallback((props: IInputProps) => {
@@ -110,24 +110,24 @@ const LoginPage: React.FC = () => {
       <Form onSubmit={handleSubmit}>
         <LoginInput
           name="email"
-          onChange={handleChange}
-          onBlur={() => {
-            if (!isEmail(registerInfo.email) && registerInfo.email.length) {
-              setRegisterInfoErr({ ...registerInfoErr, emailErr: true });
+          onChange={(e) => {
+            handleChange(e);
+            if (!isEmail(loginInfo.email) && loginInfo.email.length) {
+              setLoginInfoErr({ ...loginInfoErr, emailErr: true });
             } else {
-              setRegisterInfoErr({ ...registerInfoErr, emailErr: false });
+              setLoginInfoErr({ ...loginInfoErr, emailErr: false });
             }
           }}
           required
-          value={registerInfo?.email}
-          error={registerInfoErr.emailErr}
+          value={loginInfo?.email}
+          error={loginInfoErr.emailErr}
           label="이메일"
         />
         <LoginInput
           required
           name="password"
           onChange={handleChange}
-          value={registerInfo?.password}
+          value={loginInfo?.password}
           type={hidePassword ? 'password' : 'text'}
           label="비밀번호"
           endAdornment={
