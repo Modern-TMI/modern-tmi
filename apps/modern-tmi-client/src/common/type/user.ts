@@ -7,3 +7,8 @@ export interface IUser {
   updatedDate: string;
   createdDate: string;
 }
+
+export interface IUserLoginInfo {
+  email: string;
+  password: string;
+}
