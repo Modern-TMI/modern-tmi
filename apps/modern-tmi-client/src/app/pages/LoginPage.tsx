@@ -5,6 +5,7 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  useEffect,
 } from 'react';
 import {
   Button,
@@ -13,9 +14,15 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import HideButton from '../components/HideButton';
-import { isEmail } from '../utils/validate';
+import HideButton from '../../common/components/HideButton';
+import { isEmail } from '../../common/utils/validate';
 import { useNavigate } from 'react-router-dom';
+import { IUser } from '../../common/type/user';
+import userSlice, { loginUser } from '../../common/slices/userSlice';
+import {
+  useUserDispatch,
+  useUserSelector,
+} from '../../common/hooks/useUserStore';
 
 interface ILoginInfo {
   email: string;
@@ -42,6 +49,25 @@ interface IInputProps {
 }
 
 const LoginPage: React.FC = () => {
+  const dispatch = useUserDispatch();
+  const userInfo = useUserSelector((state) => state);
+
+  // testCode
+  // useEffect(() => {
+  //   dispatch(
+  //     loginUser({
+  //       id: 1,
+  //       email: 'khil@airi.kr',
+  //       password: '1234',
+  //       nickname: 'zidru',
+  //       isActive: true,
+  //       updatedDate: '',
+  //       createdDate: '',
+  //     } as IUser)
+  //   );
+  //   // console.log(userStore.getState());
+  // }, []);
+
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState<ILoginInfo>({

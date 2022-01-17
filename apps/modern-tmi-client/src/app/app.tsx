@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { Routes, Route } from 'react-router-dom';
-
 const StyledApp = styled.div`
   // Your style here
 `;
