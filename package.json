@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "server": "nx serve modern-tmi-server"
   },
   "private": true,
   "dependencies": {
@@ -81,6 +82,7 @@
     "eslint-plugin-react": "7.27.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "jest": "27.2.3",
+    "mini-css-extract-plugin": "2.4.5",
     "prettier": "^2.3.1",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
