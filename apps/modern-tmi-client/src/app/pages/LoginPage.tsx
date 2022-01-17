@@ -23,6 +23,7 @@ import {
   useUserDispatch,
   useUserSelector,
 } from '../../common/hooks/useUserStore';
+import { login } from '../../common/api/userAPI';
 
 interface ILoginInfo {
   email: string;
@@ -78,16 +79,33 @@ const LoginPage: React.FC = () => {
     emailErr: false,
     passwordErr: false,
   });
+  const [isLoginErr, setIsLoginErr] = useState(false);
 
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!loginInfoErr.emailErr && !loginInfoErr.passwordErr) {
+      const loginData = {
+        email: loginInfo.email,
+        password: loginInfo.password,
+      };
+      const resp = await login(loginData);
+      console.log('after call ', resp);
+      if (resp?.data) {
+        setIsLoginErr(false);
+        dispatch(loginUser(resp.data));
+        navigate('/register');
+        return;
+      }
+      setIsLoginErr(true);
+    } else {
+      alert('형식에 맞게 입력해주세요');
+    }
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
     setLoginInfo({ ...loginInfo, [val.target.name]: val.target.value });
-    console.log(loginInfo);
   };
 
   const LoginInput = useCallback((props: IInputProps) => {
@@ -102,6 +120,8 @@ const LoginPage: React.FC = () => {
     );
   }, []);
 
+  console.log(userInfo);
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -112,7 +132,7 @@ const LoginPage: React.FC = () => {
           name="email"
           onChange={(e) => {
             handleChange(e);
-            if (!isEmail(loginInfo.email) && loginInfo.email.length) {
+            if (!isEmail(e.target.value) && e.target.value.length) {
               setLoginInfoErr({ ...loginInfoErr, emailErr: true });
             } else {
               setLoginInfoErr({ ...loginInfoErr, emailErr: false });
@@ -141,6 +161,9 @@ const LoginPage: React.FC = () => {
             </InputAdornment>
           }
         />
+        {isLoginErr && (
+          <ErrorMessage>{'로그인정보가 잘못되었습니다.'}</ErrorMessage>
+        )}
         <LoginButton variant="contained" type="submit">
           {'로그인'}
         </LoginButton>
@@ -199,4 +222,7 @@ const InputContainer = styled(FormControl)`
 
 const Input = styled(OutlinedInput)``;
 
+const ErrorMessage = styled.span`
+  color: red;
+`;
 export default LoginPage;
