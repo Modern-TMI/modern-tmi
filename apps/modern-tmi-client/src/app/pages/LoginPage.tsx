@@ -23,7 +23,7 @@ import {
   useUserDispatch,
   useUserSelector,
 } from '../../common/hooks/useUserStore';
-import { login } from '../../common/api/userAPI';
+import { postLogin } from '../../common/api/userAPI';
 
 interface ILoginInfo {
   email: string;
@@ -72,7 +72,7 @@ const LoginPage: React.FC = () => {
         email: loginInfo.email,
         password: loginInfo.password,
       };
-      const resp = await login(loginData);
+      const resp = await postLogin(loginData);
       console.log('after call ', resp);
       if (resp?.data) {
         setIsLoginErr(false);
