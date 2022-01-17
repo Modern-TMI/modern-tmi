@@ -41,7 +41,7 @@ export const GET = <T>(url: string, queryParams?: any) => {
   return API.get<T>(makeUrl(url), { params: queryParams });
 };
 
-export const POST = <T>(url: string, body: any, queryParams?: any) => {
+export const POST = <T>(url: string, body?: any, queryParams?: any) => {
   return API.post<T>(makeUrl(url), body, { params: { queryParams } });
 };
 
