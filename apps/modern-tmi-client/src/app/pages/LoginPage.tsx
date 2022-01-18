@@ -5,7 +5,6 @@ import React, {
   useState,
   ReactNode,
   useCallback,
-  useEffect,
 } from 'react';
 import {
   Button,
