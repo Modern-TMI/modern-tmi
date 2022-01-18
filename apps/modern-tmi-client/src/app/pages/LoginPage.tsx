@@ -17,12 +17,8 @@ import {
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../common/type/user';
-import userSlice, { loginUser } from '../../common/slices/userSlice';
-import {
-  useUserDispatch,
-  useUserSelector,
-} from '../../common/hooks/useUserStore';
+import { loginUser } from '../../common/slices/userSlice';
+import { useUserDispatch } from '../../common/hooks/useUserStore';
 import { postLogin } from '../../common/api/userAPI';
 
 interface ILoginInfo {
@@ -77,8 +73,7 @@ const LoginPage: React.FC = () => {
       if (resp?.data) {
         setIsLoginErr(false);
         dispatch(loginUser(resp.data));
-        // navigate('/register');
-        // 메인페이지 나오면 그리고 보내자
+        // 메인페이지 나오면 메인페이지로 보내자
         return;
       }
       setIsLoginErr(true);
