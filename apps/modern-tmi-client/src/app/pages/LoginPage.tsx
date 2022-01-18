@@ -13,6 +13,7 @@ import {
   OutlinedInput,
   FormControl,
   InputLabel,
+  Alert,
 } from '@mui/material';
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
@@ -139,7 +140,7 @@ const LoginPage: React.FC = () => {
           }
         />
         {isLoginErr && (
-          <ErrorMessage>{'로그인정보가 잘못되었습니다.'}</ErrorMessage>
+          <Alert severity="error">{'로그인정보가 잘못되었습니다.'}</Alert>
         )}
         <LoginButton variant="contained" type="submit">
           {'로그인'}
@@ -199,7 +200,4 @@ const InputContainer = styled(FormControl)`
 
 const Input = styled(OutlinedInput)``;
 
-const ErrorMessage = styled.span`
-  color: red;
-`;
 export default LoginPage;
