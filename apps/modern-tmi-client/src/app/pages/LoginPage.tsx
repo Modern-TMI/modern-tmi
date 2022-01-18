@@ -5,7 +5,6 @@ import React, {
   useState,
   ReactNode,
   useCallback,
-  useEffect,
 } from 'react';
 import {
   Button,
@@ -13,16 +12,14 @@ import {
   OutlinedInput,
   FormControl,
   InputLabel,
+  Alert,
 } from '@mui/material';
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../common/type/user';
-import userSlice, { loginUser } from '../../common/slices/userSlice';
-import {
-  useUserDispatch,
-  useUserSelector,
-} from '../../common/hooks/useUserStore';
+import { loginUser } from '../../common/slices/userSlice';
+import { useUserDispatch } from '../../common/hooks/useUserStore';
+import { postLogin } from '../../common/api/userAPI';
 
 interface ILoginInfo {
   email: string;
@@ -50,24 +47,6 @@ interface IInputProps {
 
 const LoginPage: React.FC = () => {
   const dispatch = useUserDispatch();
-  const userInfo = useUserSelector((state) => state);
-
-  // testCode
-  // useEffect(() => {
-  //   dispatch(
-  //     loginUser({
-  //       id: 1,
-  //       email: 'khil@airi.kr',
-  //       password: '1234',
-  //       nickname: 'zidru',
-  //       isActive: true,
-  //       updatedDate: '',
-  //       createdDate: '',
-  //     } as IUser)
-  //   );
-  //   // console.log(userStore.getState());
-  // }, []);
-
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState<ILoginInfo>({
@@ -78,16 +57,34 @@ const LoginPage: React.FC = () => {
     emailErr: false,
     passwordErr: false,
   });
+  const [isLoginErr, setIsLoginErr] = useState(false);
 
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!loginInfoErr.emailErr && !loginInfoErr.passwordErr) {
+      const loginData = {
+        email: loginInfo.email,
+        password: loginInfo.password,
+      };
+      const resp = await postLogin(loginData);
+      console.log('after call ', resp);
+      if (resp?.data) {
+        setIsLoginErr(false);
+        dispatch(loginUser(resp.data));
+        // 메인페이지 나오면 메인페이지로 보내자
+        return;
+      }
+      setIsLoginErr(true);
+      setLoginInfo({ ...loginInfo, password: '' });
+    } else {
+      alert('형식에 맞게 입력해주세요');
+    }
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
     setLoginInfo({ ...loginInfo, [val.target.name]: val.target.value });
-    console.log(loginInfo);
   };
 
   const LoginInput = useCallback((props: IInputProps) => {
@@ -112,7 +109,7 @@ const LoginPage: React.FC = () => {
           name="email"
           onChange={(e) => {
             handleChange(e);
-            if (!isEmail(loginInfo.email) && loginInfo.email.length) {
+            if (!isEmail(e.target.value) && e.target.value.length) {
               setLoginInfoErr({ ...loginInfoErr, emailErr: true });
             } else {
               setLoginInfoErr({ ...loginInfoErr, emailErr: false });
@@ -141,6 +138,9 @@ const LoginPage: React.FC = () => {
             </InputAdornment>
           }
         />
+        {isLoginErr && (
+          <Alert severity="error">{'로그인정보가 잘못되었습니다.'}</Alert>
+        )}
         <LoginButton variant="contained" type="submit">
           {'로그인'}
         </LoginButton>

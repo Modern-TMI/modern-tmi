@@ -9,6 +9,9 @@ import React, {
 import { Button, OutlinedInput, FormControl, InputLabel } from '@mui/material';
 import HideButton from '../../common/components/HideButton';
 import { isEmail } from '../../common/utils/validate';
+import { postRegister } from '../../common/api/userAPI';
+import { useUserDispatch } from '../../common/hooks/useUserStore';
+import { useNavigate } from 'react-router-dom';
 
 interface IRegisterUser {
   email: string;
@@ -39,6 +42,8 @@ interface IInputProps {
 }
 
 const RegisterPage: React.FC = () => {
+  const dispatch = useUserDispatch();
+  const navigate = useNavigate();
   const [registerInfo, setRegisterInfo] = useState<IRegisterUser>({
     email: '',
     nickname: '',
@@ -54,8 +59,16 @@ const RegisterPage: React.FC = () => {
 
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (Object.values(registerInfoErr).every((item) => !item)) {
+      const resp = await postRegister(registerInfo);
+      if (resp?.data) {
+        navigate('/login');
+      }
+    } else {
+      alert('형식에 맞게 입력해주세요');
+    }
   };
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
