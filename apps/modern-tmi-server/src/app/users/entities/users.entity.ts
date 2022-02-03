@@ -1,16 +1,16 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { BaseEntity } from '../types';
+import { BaseEntity } from '../../types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IUser } from './types';
+import { Tmi } from '../../tmi/entities/tmi.entity';
 
 @Entity()
-export class User implements BaseEntity, IUser {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ description: 'id' })
   id: number;
@@ -35,11 +35,9 @@ export class User implements BaseEntity, IUser {
   @ApiProperty({ description: 'RefreshToken' })
   refreshToken: string | null;
 
-  @UpdateDateColumn()
-  @ApiProperty({ description: '수정 일자 ' })
-  updatedDate: Date;
-
-  @CreateDateColumn()
-  @ApiProperty({ description: '생성 일자' })
-  createdDate: Date;
+  @ManyToMany((type) => Tmi, (tmi) => tmi.favorites, {
+    cascade: true,
+  })
+  @JoinTable()
+  favorites: Tmi[];
 }

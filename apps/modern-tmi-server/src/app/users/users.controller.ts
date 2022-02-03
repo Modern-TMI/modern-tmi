@@ -18,10 +18,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from './users.entity';
-import { CreateUserDto, DeleteUserDto } from './dto/users.dto';
+import { User } from './entities/users.entity';
 import { Response } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CreateUserDto } from './dto/create-users.dto';
+import { DeleteUserDto } from './dto/delete-users.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)

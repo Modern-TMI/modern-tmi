@@ -15,9 +15,3 @@ export class CreateUserDto {
   @IsString()
   nickname: string;
 }
-
-export class DeleteUserDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  id: number;
-}

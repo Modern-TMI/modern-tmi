@@ -3,7 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/auth.dto';
 import { isMatchHash } from '../util/encryption';
-import { CreateUserDto } from '../users/dto/users.dto';
+import { CreateUserDto } from '../users/dto/delete-users.dto';
 import { environment } from '../../environments/environment';
 import { makeCookieOptions } from '../util/cookies';
 import { IJwtPayload } from './types';
