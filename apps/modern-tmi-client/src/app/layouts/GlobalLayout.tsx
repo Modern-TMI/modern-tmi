@@ -1,23 +1,73 @@
 import React, { memo, useState } from 'react';
-import { Dehaze, Login, Person } from '@mui/icons-material';
-import { createTheme, Box, Popover, Button, Theme } from '@mui/material';
+import {
+  Dehaze,
+  Home,
+  LocalFireDepartment,
+  Login,
+  Person,
+  Today,
+} from '@mui/icons-material';
+import {
+  createTheme,
+  Box,
+  Popover,
+  Button,
+  Theme,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Drawer,
+} from '@mui/material';
 import { flexbox } from '@mui/system';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useUserSelector } from '../../common/hooks/useUserStore';
 import styled from '@emotion/styled';
 import { AppBarProps } from '@mui/material/AppBar';
 
+const sideMenuList = [
+  {
+    menuIcon: <Today />,
+    menuName: '오늘의 TMI',
+  },
+  {
+    menuIcon: <LocalFireDepartment />,
+    menuName: '화제의 TMI',
+  },
+];
+
 const GlobalLayout = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
   const userState = useUserSelector((state) => state);
   const navigate = useNavigate();
+
+  const drawMenu = () => {
+    return (
+      <Box>
+        <List>
+          {sideMenuList.map((item) => (
+            <ListItem>
+              <ListItemIcon>{item.menuIcon}</ListItemIcon>
+              <ListItemText>{item.menuName}</ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    );
+  };
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   return (
     <Box>
       <HeaderWrapper>
         <ToolsContainer>
-          <MenuButton />
-          {userState.id < 0 ? (
+          <MenuButton onClick={toggleSidebar} />
+          <span>Modern TMI</span>
+          {userState.id > 0 ? (
             <Person />
           ) : (
             <Login
@@ -28,6 +78,9 @@ const GlobalLayout = () => {
           )}
         </ToolsContainer>
       </HeaderWrapper>
+      <Drawer open={showSidebar} anchor="left" onClose={toggleSidebar}>
+        {drawMenu()}
+      </Drawer>
       <Outlet />
     </Box>
   );
@@ -51,6 +104,7 @@ const ToolsContainer = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 0 12px;
 `;
 
