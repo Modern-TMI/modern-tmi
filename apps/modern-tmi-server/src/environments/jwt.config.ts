@@ -1,4 +1,4 @@
-import { ONE_DAY, ONE_MINUTE } from '../app/util/date';
+import { ONE_DAY, ONE_MINUTE } from '../app/common/helpers/date.helper';
 
 export interface IJwtConfig {
   JWT_ACCESS_TOKEN_SECRET: string;

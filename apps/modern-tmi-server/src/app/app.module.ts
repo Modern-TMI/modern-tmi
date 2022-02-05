@@ -2,15 +2,15 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './module/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { setDbConfig } from '../environments/db.config';
-import { AuthModule } from './auth/auth.module';
-import { FavoriteModule } from './favorite/favorite.module';
-import { HistoryModule } from './history/history.module';
-import { CommentModule } from './comment/comment.module';
-import { TagsModule } from './tags/tags.module';
-import { TmiModule } from './tmi/tmi.module';
+import { AuthModule } from './authentication/auth.module';
+import { FavoriteModule } from './module/favorite/favorite.module';
+import { HistoryModule } from './module/history/history.module';
+import { CommentModule } from './module/comments/comment.module';
+import { TagsModule } from './module/tags/tags.module';
+import { TmiModule } from './module/tmi/tmi.module';
 
 @Module({
   imports: [
