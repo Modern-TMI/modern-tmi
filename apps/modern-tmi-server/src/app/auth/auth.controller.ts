@@ -11,11 +11,11 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/auth.dto';
-import { CreateUserDto } from '../users/dto/delete-users.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { User } from '../users/entities/users.entity';
+import { CreateUserDto } from '../users/dto/create-users.dto';
 
 @Controller('auth')
 @ApiTags('로그인 / 회원가입 API')
