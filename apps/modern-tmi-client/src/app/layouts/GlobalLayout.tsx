@@ -44,16 +44,19 @@ const GlobalLayout = () => {
 
   const drawMenu = () => {
     return (
-      <Box>
-        <List>
-          {sideMenuList.map((item) => (
-            <ListItem>
-              <ListItemIcon>{item.menuIcon}</ListItemIcon>
-              <ListItemText>{item.menuName}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      <SideBox>
+        <HeaderWrapper />
+        <ListWrapper>
+          <List>
+            {sideMenuList.map((item) => (
+              <ListItem key={item.menuName}>
+                <ListItemIcon>{item.menuIcon}</ListItemIcon>
+                <ListItemText>{item.menuName}</ListItemText>
+              </ListItem>
+            ))}
+          </List>
+        </ListWrapper>
+      </SideBox>
     );
   };
 
@@ -109,6 +112,19 @@ const ToolsContainer = styled.div`
 `;
 
 const MenuButton = styled(Dehaze)``;
+
+const SideBox = styled(Box)`
+  height: 100%;
+  background-color: white;
+`;
+
+const ListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+`;
 
 interface SideBarProps extends AppBarProps {
   open: boolean;
