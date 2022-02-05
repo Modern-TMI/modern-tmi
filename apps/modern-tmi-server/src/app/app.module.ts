@@ -6,8 +6,9 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { setDbConfig } from '../environments/db.config';
 import { AuthModule } from './auth/auth.module';
-import { TmiModule } from './tmi/tmi.module';
-import { CommentsModule } from './comments/comments.module';
+import { FavoriteModule } from './favorite/favorite.module';
+import { HistoryModule } from './history/history.module';
+import { CommentModule } from './comment/comment.module';
 import { TagsModule } from './tags/tags.module';
 import { TmiModule } from './tmi/tmi.module';
 
@@ -18,7 +19,9 @@ import { TmiModule } from './tmi/tmi.module';
     AuthModule,
     TmiModule,
     TagsModule,
-    CommentsModule,
+    CommentModule,
+    HistoryModule,
+    FavoriteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

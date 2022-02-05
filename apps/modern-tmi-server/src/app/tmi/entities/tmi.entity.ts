@@ -1,11 +1,21 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/entities/users.entity';
 import { Tag } from '../../tags/entities/tag.entity';
-import { BaseEntity } from '../../types';
+import { IBaseEntity } from '../../types';
+import { History } from '../../history/entities/history.entity';
+import { Favorite } from '../../favorite/entities/favorite.entity';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Entity('tmi')
-export class Tmi extends BaseEntity {
+export class Tmi extends IBaseEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty({ description: 'id' })
   id: number;
@@ -26,9 +36,21 @@ export class Tmi extends BaseEntity {
   @ApiProperty({ description: 'TMI 버전' })
   version: number;
 
-  @ManyToMany((type) => User, (user) => user.favorites)
-  favorites: User[];
+  //#region Relations
+  @OneToMany((type) => History, (history) => history.tmi)
+  history: History[];
 
-  @ManyToMany((type) => Tag, (tag) => tag.tags)
+  @OneToMany((type) => Favorite, (favorite) => favorite.tmi)
+  favorite: Favorite[];
+
+  @OneToMany((type) => Comment, (comment) => comment.tmi)
+  comment: Comment[];
+
+  @OneToMany((type) => Tag, (tag) => tag.name)
   tags: Tag[];
+
+  // 가장 마지막에 수정한 유저만 저장. 전체 유저 기록은 히스토리에서 확인
+  @ManyToOne((type) => User, (user) => user.tmi)
+  user: User;
+  //#endregion
 }
