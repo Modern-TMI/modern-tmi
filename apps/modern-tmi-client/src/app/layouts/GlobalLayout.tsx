@@ -21,9 +21,13 @@ import {
 } from '@mui/material';
 import { flexbox } from '@mui/system';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useUserSelector } from '../../common/hooks/useUserStore';
+import {
+  useUserDispatch,
+  useUserSelector,
+} from '../../common/hooks/useUserStore';
 import styled from '@emotion/styled';
 import { AppBarProps } from '@mui/material/AppBar';
+import { logoutUser } from '../../common/slices/userSlice';
 
 const sideMenuList = [
   {
@@ -38,9 +42,41 @@ const sideMenuList = [
 
 const GlobalLayout = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [showPopover, setShowPopover] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<
+    Element | ((element: Element) => Element) | null | undefined
+  >(null);
   const userState = useUserSelector((state) => state);
+  const dispatch = useUserDispatch();
   const navigate = useNavigate();
+
+  const handleClickPopover = (event: React.MouseEvent) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const popoverList = [
+    {
+      func: () => navigate('/mypage'),
+      menuName: '마이페이지',
+    },
+    {
+      func: () => navigate('/favorite'),
+      menuName: '즐겨찾기',
+    },
+    {
+      func: () => {
+        closePopover();
+        dispatch(logoutUser(userState));
+        navigate('/login');
+      },
+      menuName: '로그아웃',
+    },
+  ];
+
+  const showPopover = Boolean(anchorEl);
 
   const drawMenu = () => {
     return (
@@ -71,7 +107,7 @@ const GlobalLayout = () => {
           <MenuButton onClick={toggleSidebar} />
           <span>Modern TMI</span>
           {userState.id > 0 ? (
-            <Person />
+            <Person onClick={(e) => handleClickPopover(e)} />
           ) : (
             <Login
               onClick={() => {
@@ -84,6 +120,23 @@ const GlobalLayout = () => {
       <Drawer open={showSidebar} anchor="left" onClose={toggleSidebar}>
         {drawMenu()}
       </Drawer>
+      <Popover
+        open={showPopover}
+        onClose={closePopover}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <ListWrapper>
+          {popoverList.map((item) => (
+            <ListItem key={item.menuName}>
+              <ListItemText onClick={item.func}>{item.menuName}</ListItemText>
+            </ListItem>
+          ))}
+        </ListWrapper>
+      </Popover>
       <Outlet />
     </Box>
   );
@@ -125,11 +178,5 @@ const ListWrapper = styled.div`
   justify-content: center;
   padding: 0 12px;
 `;
-
-interface SideBarProps extends AppBarProps {
-  open: boolean;
-}
-
-const SideBar = styled('div')<SideBarProps>(({ theme, open }) => ({}));
 
 export default memo(GlobalLayout);
