@@ -1,14 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Tmi } from '../../tmi/entities/tmi.entity';
+import { Column, Entity } from 'typeorm';
+import { CommonEntity } from '../../common.entity';
 
-@Entity('tag')
-export class Tag {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+@Entity()
+export class Tag extends CommonEntity {
+  @Column({
+    type: 'varchar',
+    length: 30,
+    comment: '태그명. 최대길이 30자',
+  })
   name: string;
-
-  @ManyToOne((type) => Tmi, (tmi) => tmi.tags)
-  tags: string[];
 }
