@@ -107,7 +107,9 @@ const GlobalLayout = () => {
           <MenuButton onClick={toggleSidebar} />
           <span>Modern TMI</span>
           {userState.id > 0 ? (
-            <Person onClick={(e) => handleClickPopover(e)} />
+            <PersonContainer onClick={(e) => handleClickPopover(e)}>
+              <Person />
+            </PersonContainer>
           ) : (
             <Login
               onClick={() => {
@@ -126,7 +128,11 @@ const GlobalLayout = () => {
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
         }}
       >
         <ListWrapper>
@@ -158,6 +164,7 @@ const HeaderWrapper = styled.header`
 const ToolsContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -165,6 +172,12 @@ const ToolsContainer = styled.div`
 `;
 
 const MenuButton = styled(Dehaze)``;
+
+const PersonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
 
 const SideBox = styled(Box)`
   height: 100%;
