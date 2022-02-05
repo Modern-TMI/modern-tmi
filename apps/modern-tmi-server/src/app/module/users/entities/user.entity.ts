@@ -53,7 +53,7 @@ export class User extends CommonEntity {
    * @OneToMany -> 해당 엔티티(User) To 대상 엔티티(Tmi)
    *               하나의 유저는 여러개의 Tmi를 가진다.
    */
-  @OneToMany((type) => Tmi, (tmi) => tmi.user)
+  @OneToMany(() => Tmi, (tmi) => tmi.user)
   tmi: Tmi[];
 
   /**
@@ -61,7 +61,7 @@ export class User extends CommonEntity {
    * @OneToMany -> 해당 엔티티(User) To 대상 엔티티(Comment)
    *               하나의 유저는 여러개의 댓글을 가진다.
    */
-  @OneToMany((type) => Comment, (comment) => comment.user)
+  @OneToMany(() => Comment, (comment) => comment.user)
   comment: Comment[];
 
   /**
@@ -69,7 +69,7 @@ export class User extends CommonEntity {
    * @OneToMany -> 해당 엔티티(User) To 대상 엔티티(History)
    *               하나의 유저는 여러개의 Tmi 히스토리를 가진다.
    */
-  @OneToMany((type) => History, (history) => history.user)
+  @OneToMany(() => History, (history) => history.user)
   history: History[];
 
   /**
@@ -77,6 +77,6 @@ export class User extends CommonEntity {
    * @OneToMany -> 해당 엔티티(User) To 대상 엔티티(Favorite)
    *               하나의 유저는 여러개의 Tmi 즐겨찾기를 가진다.
    */
-  @OneToMany((type) => Favorite, (favorite) => favorite.user)
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
   favorite: Favorite[];
 }
